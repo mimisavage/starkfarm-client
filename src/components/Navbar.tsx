@@ -58,6 +58,10 @@ import {
   ArgentMobileConnector,
   isInArgentMobileAppBrowser,
 } from 'starknetkit/argentMobile';
+import {
+  BraavosMobileConnector,
+  isInBraavosMobileAppBrowser,
+} from 'starknetkit/braavosMobile';
 import { WebWalletConnector } from 'starknetkit/webwallet';
 import TncModal from './TncModal';
 
@@ -68,6 +72,10 @@ export function getConnectors(isMobile: boolean) {
       url: getEndpoint(),
       chainId: constants.NetworkName.SN_MAIN,
     },
+    inAppBrowserOptions: {},
+  }) as StarknetkitConnector;
+
+  const mobileBraavosConnector = BraavosMobileConnector.init({
     inAppBrowserOptions: {},
   }) as StarknetkitConnector;
 
@@ -98,14 +106,22 @@ export function getConnectors(isMobile: boolean) {
 
   if (isInArgentMobileAppBrowser()) {
     return [mobileConnector];
+  } else if (isInBraavosMobileAppBrowser()) {
+    return [mobileBraavosConnector];
   } else if (isMobile) {
-    return [braavosConnector, mobileConnector, webWalletConnector];
+    return [
+      braavosConnector,
+      mobileConnector,
+      mobileBraavosConnector,
+      webWalletConnector,
+    ];
   }
   return [
     argentXConnector,
     braavosConnector,
     keplrConnector,
     mobileConnector,
+    mobileBraavosConnector,
     webWalletConnector,
   ];
 }
