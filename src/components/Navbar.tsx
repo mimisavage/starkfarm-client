@@ -121,7 +121,6 @@ export function getConnectors(isMobile: boolean) {
     braavosConnector,
     keplrConnector,
     mobileConnector,
-    mobileBraavosConnector,
     webWalletConnector,
   ];
 }
